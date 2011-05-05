@@ -37,7 +37,9 @@ platforms :jruby do
   gem 'activerecord-jdbcpostgresql-adapter'
 end
 
-gem 'yajl-ruby'
+gem 'compass', '>= 0.11.1'
+
+#gem 'yajl-ruby'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -61,7 +63,7 @@ gem 'yajl-ruby'
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
-  gem 'rconv'
+  gem 'rcov'
   gem 'delorean'
   gem 'watchr'
 #   gem 'webrat'

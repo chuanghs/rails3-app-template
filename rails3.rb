@@ -2,6 +2,37 @@
 run "rm README"
 run "rm public/index.html"
 run "rm public/images/rails.png"
+run "rm app/views/layouts/application.html.erb"
+
+# remove Prototype defaults
+run "rm public/javascripts/controls.js"
+run "rm public/javascripts/dragdrop.js"
+run "rm public/javascripts/effects.js"
+run "rm public/javascripts/prototype.js"
+
+# add XHTML 1.0 Strict layout, with jQuery from Google
+file 'app/views/layouts/application.html.erb', <<-ERB
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Enterprise</title>
+  <%= stylesheet_link_tag 'screen.css', :media => 'screen, projection' %>
+  <%= stylesheet_link_tag 'print.css', :media => 'print' %>
+  /[if lt IE 8]
+  <%= stylesheet_link_tag 'ie.css', :media => 'screen, projection' %>
+
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
+ERB
+
+
 
 # avoid mysql2 option for Rails3
 if options[:database] =~/mysql/
@@ -59,7 +90,10 @@ gsub_file 'config/application.rb', /(config.action_view.javascript_extensions.*)
                                    "config.action_view.javascript_extensions[:defaults] = %w(jquery rails)"
 
 # add time format
-environment 'Time::DEFAULT_FORMAT.merge!(:default => "%Y/%m/%d %I:%M %p", :ymd = "%Y/%m/%d")'
+#environment 'Time::DEFAULT_FORMAT.merge!(:default => "%Y/%m/%d %I:%M %p", :ymd => "%Y/%m/%d")'
+environment 'Time::DATE_FORMATS.merge!(:default => "%Y/%m/%d %I:%M %p", :ymd => "%Y/%m/%d")'
+
+run "compass init rails . --using blueprint"
 
 #.gitignore
 append_file '.gitignore', <<-CODE
